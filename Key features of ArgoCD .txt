@@ -1,0 +1,11 @@
+                                                                                               Key features of ArgoCD 
+
+
+
+
+
+Declarative and GitOps Driven: Argo CD follows the GitOps principle, using Git repositories as the sole source of truth for the definition of applications and their desired states.
+Automated Synchronization: It continuously monitors the application state and applies changes from the Git repository to the cluster, ensuring the deployed applications are always up-to-date with their specified configurations.
+Multi-Tenancy and RBAC: Supports multi-tenancy and restricts access control using Kubernetes-native RBAC, making it suitable for managing multiple teams and projects.
+Visualizations: Offers a comprehensive UI and CLI for visualizing the differences between the desired and current state, tracking application health, and managing deployments.
+Rollbacks and Manual Overrides: Provides easy rollbacks to previous versions and allows for manual overrides for precise control over the deployment process.
