@@ -1,0 +1,59 @@
+                                                                                  Setting Up and Using Argo CD
+
+
+
+
+To illustrate how Argo CD is used, let's walk through a basic example of setting up Argo CD in a Kubernetes cluster and deploying an application.
+
+Step 1: Install Argo CD
+First, you need to install Argo CD in your Kubernetes cluster:
+
+Copy code
+
+kubectl create namespace argocd
+
+kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+
+Step 2: Access Argo CD
+Access the Argo CD web UI by exposing the Argo CD API server. For simplicity, you can use port-forwarding:
+
+Copy code
+
+kubectl port-forward svc/argocd-server -n argocd 8080:443
+
+Then, access the UI through http://localhost:8080 and login with the default username admin and the password obtained from: 
+
+kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d; echo
+
+Step 3: Deploy an Application
+
+Create an application definition file application.yaml that specifies the source repository, path within the repository, and the deployment destination:
+
+yaml
+Copy code
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: example-app
+spec:
+  project: default
+  source:
+    repoURL: 'https://github.com/yourrepo/example-app.git'
+    targetRevision: HEAD
+    path: k8s
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: default
+
+Apply this configuration:
+
+kubectl apply -f application.yaml -n argocd
+
+Step 4: Sync and Monitor the Application
+You can now sync your application to match the desired state in the Git repository either via the Argo CD UI or using the CLI:
+
+argocd app sync example-app
+
+Monitor the application's status and health through the UI or CLI:
+
+argocd app get example-app
